@@ -11,8 +11,9 @@ config.read('config.ini')
 token = config.get('main', 'token')
 
 bot = commands.Bot(command_prefix='~')
-startup = ['pokebase', 'trainercards']
+startup = ['pokebase', 'trainercards', 'general']
 
+#bot.remove_command('help')
 
 # Startup event
 @bot.event
@@ -31,22 +32,21 @@ async def on_ready():
             exc = '{}: {}'.format(type(e).__name__, e)
             print('Failed to load extention {}\n{}'.format(ext, exc))
     # Set discord presence
-    game = discord.Game("with mega stones.")
-    await bot.change_presence(status=discord.Status.idle, activity=game)
+    game = discord.Game("in the Crown Tundra")
+    await bot.change_presence(status=discord.Status.online, activity=game)
 
 # On user join.
 @bot.event
 async def on_member_join(member):
    await bot.get_channel(356836239011479553).send(f" Welcome {member.name} to the Discord of Tech Pokemon.  Make sure to stop by #rules and #announcements.  Enjoy your stay!")
 
-
-@bot.command()
+@bot.command(hidden=True)
 async def ping(ctx):
     """pong"""
     await ctx.send('pong')
 
-
-@bot.command()
+@bot.command(hidden=True)
+@commands.has_permissions(administrator=True)
 async def reload(ctx, ext_name: str):
     """Reload a cog"""
     ext_name = 'cogs.' + ext_name
@@ -55,15 +55,19 @@ async def reload(ctx, ext_name: str):
 
     await ctx.send("{} reloaded.".format(ext_name))
 
-@bot.command()
+@bot.command(hidden=True)
+@commands.has_permissions(administrator=True)
 async def load(ctx, ext_name: str):
+    """Admin debug"""
     ext_name = 'cogs.' + ext_name
     bot.load_extension(ext_name)
 
     await ctx.send('{} loaded'.format(ext_name))
 
-@bot.command()
+@bot.command(hidden=True)
+@commands.has_permissions(administrator=True)
 async def exit(ctx):
+    """Admin Debug"""
     sys.exit("Recieved exit cmd")
     await ctx.send("Exiting")
 

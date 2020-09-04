@@ -7,6 +7,7 @@ dex = TinyDB('cache/dex.json')
 entry = Query()
 
 class Pokemon(commands.Cog):
+    """Pokemon lookup, info and more."""
     def __init__(self, bot):
         self.bot = bot 
     
@@ -53,7 +54,7 @@ class Pokemon(commands.Cog):
         """Send the shiny version of the desired pokemon"""
         try:
             #await ctx.send(file=discord.File(r"sprites\front\shiny\{}.gif".format(name)))
-            await ctx.send('https://play.pokemonshowdown.com/sprites/ani-shiny/{}.gif'.format(name))
+            await ctx.send('https://play.pokemonshowdown.com/sprites/ani-shiny/{}.gif'.format(name.lower()))
         except:
             await ctx.send("Pokemon not found, typo perhaps?")       
 
@@ -119,10 +120,11 @@ class Pokemon(commands.Cog):
 
         await ctx.send(embed=embed)
 
-    @commands.command()
+    @commands.command(hidden=True)
+    @commands.has_permissions(administrator=True)
     # THIS COMMAND IS ABSOLUTELY FUCKED WIP
     async def movelist(self, ctx, name):
-        """List all the available moves a pokemon can learn"""
+        """List a pokemon's moves ! THIS COMMAND IS FUCKED AND DOESN'T WORK !"""
         movedex = TinyDB('cache/moves.json')
         # +======================+
         # |    Move    | Typ  Po |
